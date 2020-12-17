@@ -1,0 +1,8 @@
+.centered {
+    position: relative;
+    top:10px;
+    left: 40%;
+    margin-top: -7%;
+    /* bring your own prefixes */
+    transform: translate(-10%, -50%);
+  }

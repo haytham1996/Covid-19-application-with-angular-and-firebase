@@ -1,0 +1,78 @@
+<div class="row">
+    <div class="col-sm-6">
+      <h3>{{ user.userName }}</h3>
+    </div>
+    <div class="col-sm-6 text-right">
+      <button class="btn btn-danger" (click)="covidService.signOut()">
+        Sign Out
+      </button>
+    </div>
+  </div>
+  
+  <div class="my-3" *ngIf = "news.length > 0">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let new of news">
+          <td>{{new.date }} </td>
+          <td>{{ new.description }}</td>
+          <td>{{ new.country }}</td>
+          
+        </tr>
+      </tbody>
+      
+    </table>
+   
+  </div>
+  <h4>Add new expenses</h4>
+<form (ngSubmit)="addNews()">
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <label for="dateInput">Date</label>
+      <input
+        type="date"
+        id="dateInput"
+        name="dateInput"
+        class="form-control"
+        [(ngModel)]="date"
+        required
+      />
+    </div>
+    <div class="col-md-6">
+      <label for="countryInput">country</label>
+      <input
+        type="text"
+        id="countryInput"
+        name="countryInput"
+        class="form-control"
+        placeholder="country"
+        [(ngModel)]="country"
+        required
+      />
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-12">
+      <label for="descriptionInput">Description</label>
+      <input
+        type="text"
+        id="descriptionInput"
+        name="descriptionInput"
+        class="form-control"
+        placeholder="describe the news u xant to add"
+        [(ngModel)]="description"
+        required
+      />
+    </div>
+  </div>
+  <button class="btn btn-primary">Add</button>
+</form>
+
+  
+  
