@@ -8,12 +8,15 @@ import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { News } from './models/news.model';
 import { HttpClient, HttpHeaders , HttpParams } from '@angular/common/http';
+import { element, promise } from 'protractor';
+import { resolve } from 'dns';
 @Injectable({
   providedIn: 'root'
 })
 export class CovidService {
   private user!: User ; 
   private covidUrl = 'https://api.covid19api.com' ; 
+  newsData: any[]; 
 
   constructor(private afAuth : AngularFireAuth , private router: Router, private firestore : AngularFirestore , private httpClient: HttpClient) { }
   
@@ -68,6 +71,14 @@ export class CovidService {
     this.firestore.collection("users").doc(this.user.uid)
     .collection("news").add(news);
   }
+  getAllNews(){
+    let news =  firebase.firestore().collectionGroup("news") ; 
+    let newsData : any[] = [] ;
+    let test : any ;  
+    news.get().then((querySnapshot)=>{ querySnapshot.docs.forEach(async element =>{  newsData.push(element.data())})}) ;
+    return newsData ; 
+     
+   }
 
   getSummary() : Observable<any[]> {
     
@@ -89,6 +100,16 @@ export class CovidService {
     set('from', from)
     .set('to' , to) ; 
     return this.httpClient.get<any>(`${this.covidUrl}/world` , {params}) ;
+  }
+
+  getDataSince():Observable<any>{
+    
+    let date=new Date("2020-04-13T06:37:00Z").toISOString() ; 
+    let date2 = new Date().toISOString() ;
+          
+     let params = new HttpParams().set('from' , date).set('to' , date2) ; 
+    return  this.httpClient.get<any>(`${this.covidUrl}/world` , {params});
+
   }
 
 }

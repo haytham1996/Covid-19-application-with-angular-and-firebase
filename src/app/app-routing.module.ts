@@ -9,7 +9,7 @@ import {SigninComponent} from './signin/signin.component';
 const routes: Routes = [
   {path:"signin", component: SigninComponent , canActivate: [SecurePagesGuard]},
   {path:"", component: HomeComponent},
-  {path:"country", component: CountryComponent},
+  {path:"country/:country", component: CountryComponent},
   {path:"news", component: NewsComponent , canActivate: [AuthGuard]}
 ];
 

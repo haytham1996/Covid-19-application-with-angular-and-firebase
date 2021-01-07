@@ -16,7 +16,7 @@
           <span class="label">Active Cases</span>
         </div>
       </div>
-      <div class="col-lg-4" *ngFor="let el of infos.Global | keyvalue ">
+      <div class="col-lg-4" *ngFor="let el of infos | keyvalue ">
         <div class="data">
           <span class="icon text-primary">
             <span class="flaticon-virus"></span>
@@ -92,5 +92,105 @@
      
   </div>
 </div>
-      
-         
+
+<div class="site-section bg-primary-light">
+  <div class="container">
+   
+    <div class="row mb-5">
+      <div class="col-lg-7 mx-auto text-center">
+        <h2 class="mb-4 section-heading">Corona Virus Cases Distribution Worldwide</h2>
+        <div class="chart-wrapper">
+   <div class="chart-wrapper" *ngIf="chartReady">
+    <canvas baseChart 
+        [datasets]="lineChartData" 
+        [labels]="lineChartLabels" 
+        [options]="lineChartOptions"
+        [colors]="lineChartColors" 
+        [legend]="lineChartLegend" 
+        [chartType]="lineChartType" 
+        [plugins]="lineChartPlugins">
+    </canvas>
+</div>
+</div>
+      </div>
+    </div>
+     
+     
+  </div>
+</div>
+
+<div class="site-section bg-primary-light">
+ 
+  <div class="container">
+   
+    <div class="row mb-5">
+      <div class="col-lg-7 mx-auto text-center">
+   
+     
+        <h2 class="mb-4 section-heading">Corona Virus Cases By Country</h2>
+        </div>
+        </div>
+        </div>
+          <nav class="navbar">
+            <input class="form-control" type="text" name="country" [(ngModel)]="country" (ngModelChange)="Search()"
+            placeholder="Enter Country to search " >
+          </nav>
+         <table class="table table-bordered">
+           <thead>
+             <tr>
+               <th (click)="sort('country')">Country&nbsp; <i class="fa fa-sort"></i>
+                </th>
+               <th (click)="sort('newCases')">New Cases&nbsp; <i class="fa fa-sort"></i></th>
+               <th (click)="sort('totalCases')">Total Cases&nbsp; <i class="fa fa-sort"></i></th>
+               <th (click)="sort('newRecovered')">New Recovered&nbsp; <i class="fa fa-sort"></i></th>
+               <th (click)="sort('totalRecovered')">Total Recovered&nbsp; <i class="fa fa-sort"></i></th>
+               <th (click)="sort('newDeaths')">New Deaths&nbsp; <i class="fa fa-sort"></i></th>
+               <th (click)="sort('totalDeaths')">Total Deaths&nbsp; <i class="fa fa-sort"></i></th>
+             </tr>
+           </thead>
+           <tbody>
+             <tr *ngFor="let c of countriesData | orderBy : key: reverse | paginate:{itemsPerPage:10,currentPage:p};">
+               <td routerLink="/country/{{ c.Country }}">{{c.Country}}</td>
+               <td>{{c.NewConfirmed}}</td> 
+               <td>{{c.TotalConfirmed }}</td>
+               <td>{{c.NewRecovered}}</td>
+               <td>{{c.TotalRecovered}}</td>
+               <td>{{c.NewDeaths}}</td>
+               <td>{{c.TotalDeaths}}</td>
+             </tr>
+           </tbody> 
+           <pagination-controls (pageChange)="p = $event"></pagination-controls>
+         </table>
+         <div class="site-section">
+          <div class="container">
+            <div class="row mb-5">
+              <div class="col-lg-7 mx-auto text-center">
+                <h2 class="mb-4 section-heading">News &amp; Articles</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex officia quas, modi sit eligendi numquam!</p>
+              </div>
+            </div>
+    
+            <div class="row">
+              <div class="col-lg-4" *ngFor="let n of news">
+                <div class="post-entry">
+                  <a href="#" class="thumb">
+                    <span class="date">{{n.date}}</span>
+                    <img src="assets/images/hero_1.jpg" alt="Image" class="img-fluid">
+                  </a>
+                  <div class="post-meta text-center">
+                    <a href="#">
+                      <span class="icon-user"></span>
+                      <span>news.country</span>
+                    </a>
+                    <a href="#">
+                      <span class="icon-comment"></span>
+                      <span>3 Comments</span>
+                    </a>
+                  </div>
+                  <h3><a href="#">How Coronavirus Very Contigous</a></h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    
