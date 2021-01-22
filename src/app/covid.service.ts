@@ -76,7 +76,8 @@ export class CovidService {
     let newsData : any[] = [] ;
     let test : any ;  
     news.get().then((querySnapshot)=>{ querySnapshot.docs.forEach(async element =>{  newsData.push(element.data())})}) ;
-    return newsData ; 
+    console.log(newsData)
+    return newsData ;   
      
    }
 
