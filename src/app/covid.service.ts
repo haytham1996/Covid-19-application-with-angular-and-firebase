@@ -16,6 +16,7 @@ import { resolve } from 'dns';
 export class CovidService {
   private user!: User ; 
   private covidUrl = 'https://api.covid19api.com' ; 
+  private covidUrl2 = ' https://corona.lmao.ninja/v2/historical'
   newsData: any[]; 
 
   constructor(private afAuth : AngularFireAuth , private router: Router, private firestore : AngularFirestore , private httpClient: HttpClient) { }
@@ -89,18 +90,8 @@ export class CovidService {
   }
  
   getSevenLastDays(): Observable<any[]> {
-    let date = new Date() ; 
-    let date2 = new Date() ; 
-    date2.setDate(date.getDate()-8); 
-    date.setDate(date.getDate()-1);
-    let from =  date2.toISOString() ; 
-    let to   = date.toISOString() ; 
-    
-
-    let params = new HttpParams().
-    set('from', from)
-    .set('to' , to) ; 
-    return this.httpClient.get<any>(`${this.covidUrl}/world` , {params}) ;
+   
+    return this.httpClient.get<any>(`${this.covidUrl2}/all?lastdays=8`) ;
   }
 
   getDataSince():Observable<any>{
@@ -109,7 +100,7 @@ export class CovidService {
     let date2 = new Date().toISOString() ;
           
      let params = new HttpParams().set('from' , date).set('to' , date2) ; 
-    return  this.httpClient.get<any>(`${this.covidUrl}/world` , {params});
+    return  this.httpClient.get<any>(`${this.covidUrl2}/all` , {params});
 
   }
 

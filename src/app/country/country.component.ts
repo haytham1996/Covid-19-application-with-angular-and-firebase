@@ -19,8 +19,8 @@ export class CountryComponent implements OnInit {
 
     this.currentCountry = this.route.snapshot.paramMap.get('country') ;
     console.log(this.currentCountry) 
-    this.covidService.getSummary().subscribe( data => {
-    this.infos=data.Countries  
+    this.covidService.getSummary().subscribe( data => {   
+   // this.infos=data.Countries  
     console.log(this.infos) ; 
     }) ; 
     

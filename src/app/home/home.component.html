@@ -16,7 +16,7 @@
           <span class="label">Active Cases</span>
         </div>
       </div>
-      <div class="col-lg-4" *ngFor="let el of infos | keyvalue ">
+      <div class="col-lg-4" *ngFor="let el of global | keyvalue ">
         <div class="data">
           <span class="icon text-primary">
             <span class="flaticon-virus"></span>
@@ -53,7 +53,7 @@
     <div class="row mb-5">
       <div class="col-lg-7 mx-auto text-center">
         <h2 class="mb-4 section-heading">Corona Virus Cases Distribution Worldwide</h2>
-        <div class="chart-wrapper">
+        <div class="chart-wrapper" *ngIf="chartReady">
           <canvas baseChart 
           [data]="pieChartData" 
           [labels]="pieChartLabels" 
@@ -76,7 +76,7 @@
     <div class="row mb-5">
       <div class="col-lg-7 mx-auto text-center">
         <h2 class="mb-4 section-heading">Corona Virus Cases Distribution Worldwide</h2>
-        <div class="chart-wrapper">
+        <div class="chart-wrapper" *ngIf="chartReady">
     <canvas baseChart 
     [datasets]="barChartData"
     [labels]="barChartLabels"
@@ -115,9 +115,9 @@
       </div>
     </div>
      
-     
+      
   </div>
-</div>
+</div>  
 
 <div class="site-section bg-primary-light">
  
@@ -161,26 +161,27 @@
            </tbody> 
            <pagination-controls (pageChange)="p = $event"></pagination-controls>
          </table>
+</div>
          <div class="site-section">
           <div class="container">
             <div class="row mb-5">
               <div class="col-lg-7 mx-auto text-center">
                 <h2 class="mb-4 section-heading">News &amp; Articles</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex officia quas, modi sit eligendi numquam!</p>
+                
               </div>
             </div>
     
             <div class="row">
-              <div class="col-lg-4" *ngFor="let n of news">
+              <div class="col-lg-4" *ngFor="let n of getAllNews">
                 <div class="post-entry">
                   <a href="#" class="thumb">
-                    <span class="date">{{n.date}}</span>
+                    <span class="date">{{n.country}}  </span>
                     <img src="assets/images/hero_1.jpg" alt="Image" class="img-fluid">
                   </a>
                   <div class="post-meta text-center">
                     <a href="#">
                       <span class="icon-user"></span>
-                      <span>news.country</span>
+                      <span>{{n.date | date}}</span>
                     </a>
                     <a href="#">
                       <span class="icon-comment"></span>

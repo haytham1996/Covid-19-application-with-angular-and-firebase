@@ -1,6 +1,11 @@
-export class Infos {
-    Countries : object  
-    Date : Date 
-    Global: object  
-    Message : string
+export class Global {
+
+NewConfirmed: number 
+NewDeaths: number 
+NewRecovered: number 
+TotalConfirmed: number 
+TotalDeaths: number 
+TotalRecovered: number 
+ActiveCases : number  
+
 }

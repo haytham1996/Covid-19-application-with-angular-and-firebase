@@ -10,7 +10,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { News } from '../models/news.model';
 import { element } from 'protractor';
-import { Infos } from '../models/infos.model';
+import { Global } from '../models/infos.model';
 
 
 @Component({
@@ -102,6 +102,8 @@ export class HomeComponent implements OnInit {
   news : any ;
   new:News ; 
   chartReady : boolean = false ; 
+  getAllNews: any[] = []
+  global : Global = new Global()
 
   constructor(public covidService : CovidService) {
     monkeyPatchChartJsTooltip();
@@ -110,74 +112,70 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
 
-    
+      
      let summary = this.covidService.getSummary() ; 
      let lastDays=this.covidService.getSevenLastDays() ; 
      let getDataSince = this.covidService.getDataSince() ; 
-     let getAllNews = this.covidService.getAllNews() ; 
+     this.getAllNews = this.covidService.getAllNews() ; 
 
      this.user = this.covidService.getUser() ;
     
 
-   forkJoin(summary , lastDays , getDataSince , getAllNews).subscribe(([call1Response , call2Response , call3Response , call4Response])=>{
+   forkJoin({ summary: this.covidService.getSummary(),
+   lastDays: this.covidService.getSevenLastDays(),
+   getDataSince: this.covidService.getDataSince(),
+   //getAllNews:this.covidService.getAllNews(),
+  }).subscribe(response=>{
     
 
-    this.infos = call1Response.Global  ;
-    this.news = call4Response ; 
-    console.log("*****************") ;
-    this.date = this.infos.Date ; 
-    this.activeCases=  this.infos.TotalConfirmed -  this.infos.TotalRecovered +this.infos.TotalDeaths ; 
-    this.recoveryRate= ((this.infos.TotalRecovered / this.infos.TotalConfirmed) * 100).toFixed(2) ; 
-    this.mortalityRate= ((this.infos.TotalDeaths / this.infos.TotalConfirmed) * 100).toFixed(2) ;
-    this.pieChartData=[this.infos.TotalDeaths , this.infos.TotalRecovered , this.activeCases ];
+    this.infos = response.summary ;
+
+    this.global.NewConfirmed = this.infos.Global.NewConfirmed ; 
+    this.global.NewDeaths = this.infos.Global.NewDeaths
+    this.global.NewRecovered = this.infos.Global.NewRecovered
+    this.global.TotalConfirmed = this.infos.Global.TotalConfirmed
+    this.global.TotalDeaths=  this.infos.Global.TotalDeaths
+    this.global.TotalRecovered = this.infos.Global.TotalRecovered ;
     
+  //  this.news = response.getAllNews ; 
+    console.log(this.infos)
+    this.date = this.infos.Date ; 
+    this.global.ActiveCases=  this.infos.Global.TotalConfirmed -  this.infos.Global.TotalRecovered +this.infos.Global.TotalDeaths ; 
+    this.recoveryRate = ((this.infos.Global.TotalRecovered / this.infos.Global.TotalConfirmed) * 100).toFixed(2) ; 
+    this.mortalityRate= ((this.infos.Global.TotalDeaths / this.infos.Global.TotalConfirmed) * 100).toFixed(2) ;
+    this.pieChartData=[this.infos.Global.TotalDeaths , this.infos.Global.TotalRecovered , this.global.ActiveCases];
+    console.log(this.global)
    
 
-    this.lastSevenDaysData=call2Response;
+    this.lastSevenDaysData=response.lastDays;
+    console.log(this.lastSevenDaysData)
     let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
  
-    for (let i= 7 ; i>0 ; i--) 
-    {
-      let dateForChart = new Date() ;
-      dateForChart.setDate(dateForChart.getDate()-i); 
-    //  console.log(this.lastSevenDaysData.NewDeaths); 
-      let dayName=  ("0" + dateForChart.getDate()).slice(-2);
-      let monthName = months[dateForChart.getMonth()]; 
-      let d =dayName+" "+monthName ; 
-      this.barChartLabels.push(d) ; 
+   
+      this.barChartLabels= Object.keys(this.lastSevenDaysData["cases"]) ; 
      
-    } 
+  
      let newConfirmed = [];
      let newRecoverd = [];
      let newDeaths = [];
-    // console.log(this.lastSevenDaysData);
-     this.lastSevenDaysData.forEach(element => {
-       newConfirmed.push(element.NewConfirmed);
-       newRecoverd.push(element.NewRecovered);
-       newDeaths.push(element.NewDeaths);
-     }); 
+      
+     newConfirmed = Object.values(this.lastSevenDaysData["cases"]) ; 
+     newRecoverd = Object.values(this.lastSevenDaysData["recovered"]) ; 
+     newDeaths = Object.values(this.lastSevenDaysData["deaths"])
 
      this.barChartData[2].data=newConfirmed;
      this.barChartData[1].data=newRecoverd;
      this.barChartData[0].data=newDeaths;
 
-     this.dataSince = call3Response ;  
+     this.dataSince = response.getDataSince ;  
+     console.log(this.dataSince)
      this.chartReady = true ; 
 
-      for(let i=251 ; i>=0 ; i-=7)
-      { 
-       let dateForCh= new Date() ; 
-       
-        dateForCh.setDate(dateForCh.getDate()-i); 
-       
-      
-        let dayName=  ("0" + dateForCh.getDate()).slice(-2);
-        let monthName = months[dateForCh.getMonth()]; 
-        let d =dayName+" "+monthName ;
-        // console.log(d)
-        this.lineChartLabels.push(d) ; 
-        
-      }
+      let dateForChart= [] ; 
+
+      dateForChart =Object.keys(this.dataSince["cases"])  ; 
+      console.log(dateForChart)
+      this.lineChartLabels = dateForChart ; 
       
      let totalDeaths = [];
      let totalRecoverd = [];
@@ -185,21 +183,20 @@ export class HomeComponent implements OnInit {
      /*let totalDeath =0 ; 
      let totalRecovered=0 ; 
      let totalCase = 0 ; */
-    
-     for(let i = 0 ; i<251 ; i+=7)
-     {  // console.log(this.dataSince[i])
-      
 
-       totalDeaths.push(this.dataSince[i].TotalDeaths);
-       totalRecoverd.push(this.dataSince[i].TotalRecovered);
-       totalCases.push(this.dataSince[i].TotalConfirmed);
-     }
-     this.lineChartData[0].data=totalDeaths;
+     totalDeaths = Object.values(this.dataSince["deaths"])  ; 
+     totalRecoverd = Object.values(this.dataSince["recovered"])   ; 
+     totalCases = Object.values(this.dataSince["cases"])
+    
+     
+     this.lineChartData[0].data= totalDeaths;
      this.lineChartData[1].data=totalRecoverd;
      this.lineChartData[2].data=totalCases;
 
 
-     this.countriesData = call1Response.Countries ; 
+     this.countriesData = this.infos.Countries ; 
+
+     console.log(this.countriesData)
      
      
     
