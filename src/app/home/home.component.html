@@ -150,7 +150,7 @@
            </thead>
            <tbody>
              <tr *ngFor="let c of countriesData | orderBy : key: reverse | paginate:{itemsPerPage:10,currentPage:p};">
-               <td routerLink="/country/{{ c.Country }}">{{c.Country}}</td>
+               <td routerLink="/country/{{c.Slug}}">{{c.Country}}</td>
                <td>{{c.NewConfirmed}}</td> 
                <td>{{c.TotalConfirmed }}</td>
                <td>{{c.NewRecovered}}</td>

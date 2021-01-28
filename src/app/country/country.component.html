@@ -1,1 +1,158 @@
 <p>country works!</p>
+<p>{{currentCountry}}</p>
+<div class="site-section stats">
+
+    <div class="container">
+      <div class="row mb-3">
+        <div class="col-lg-7 text-center mx-auto">
+          <h2 class="section-heading">Coronavirus Statistics</h2>
+          
+        </div>
+      </div>
+      <div class="row"> 
+        <div class="col-lg-4" >
+          <div class="data">
+            <span class="icon text-primary">
+              <span class="flaticon-virus"></span>
+            </span>
+            <strong class="d-block number">{{activceCases}} </strong>
+            <span class="label">Active Cases</span>
+          </div>
+        </div>
+        <div class="col-lg-4" *ngFor="let el of country | keyvalue ">
+          <div class="data">
+            <span class="icon text-primary">
+              <span class="flaticon-virus"></span>
+            </span>
+            <strong class="d-block number">{{el.value}}</strong>
+            <span class="label">{{el.key}}</span>
+          </div>
+        </div>
+        <div class="col-lg-4" >
+          <div class="data">
+            <span class="icon text-primary">
+              <span class="flaticon-virus"></span>
+            </span>
+            <strong class="d-block number">{{recoveryRate}} %</strong>
+            <span class="label">Recovery Rate</span>
+          </div>
+        </div>
+        <div class="col-lg-4" >
+          <div class="data">
+            <span class="icon text-primary">
+              <span class="flaticon-virus"></span>
+            </span>
+            <strong class="d-block number">{{mortalityRate}}  %</strong>
+            <span class="label">Mortality Rate</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="site-section bg-primary-light">
+    <div class="container">
+     
+      <div class="row mb-5">
+        <div class="col-lg-7 mx-auto text-center">
+          <h2 class="mb-4 section-heading">Corona Virus Cases Distribution Worldwide</h2>
+          <div class="chart-wrapper" *ngIf="chartReady">
+            <canvas baseChart 
+            [data]="pieChartData" 
+            [labels]="pieChartLabels" 
+            [chartType]="pieChartType"
+            [options]="pieChartOptions"
+            [plugins]="pieChartPlugins"
+            [legend]="pieChartLegend">
+          </canvas>
+        </div>
+        </div>
+      </div>
+       
+       
+    </div>
+  </div>
+  
+ 
+     
+  <div class="site-section bg-primary-light">
+    <div class="container">
+     
+      <div class="row mb-5">
+        <div class="col-lg-7 mx-auto text-center">
+          <h2 class="mb-4 section-heading">Corona Virus Cases Distribution Worldwide</h2>
+          <div class="chart-wrapper" *ngIf="chartReady">
+      <canvas baseChart 
+      [datasets]="barChartData"
+      [labels]="barChartLabels"
+      [options]="barChartOptions"
+      [plugins]="barChartPlugins"
+      [legend]="barChartLegend"
+      [chartType]="barChartType">
+    </canvas>
+  </div>
+        </div>
+      </div>
+       
+       
+    </div>
+  </div>
+
+  <div class="site-section bg-primary-light">
+    <div class="container">
+     
+      <div class="row mb-5">
+        <div class="col-lg-7 mx-auto text-center">
+          <h2 class="mb-4 section-heading">Corona Virus Cases Distribution Worldwide</h2>
+          <div class="chart-wrapper">
+     <div class="chart-wrapper" *ngIf="chartReady">
+      <canvas baseChart 
+          [datasets]="lineChartData" 
+          [labels]="lineChartLabels" 
+          [options]="lineChartOptions"
+          [colors]="lineChartColors" 
+          [legend]="lineChartLegend" 
+          [chartType]="lineChartType" 
+          [plugins]="lineChartPlugins">
+      </canvas>
+  </div>
+  </div>
+        </div>
+      </div>
+       
+        
+    </div>
+  </div>
+
+  <div class="site-section">
+    <div class="container">
+      <div class="row mb-5">
+        <div class="col-lg-7 mx-auto text-center">
+          <h2 class="mb-4 section-heading">News &amp; Articles</h2>
+          
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-4" *ngFor="let n of countryNews">
+          <div class="post-entry">
+            <a href="#" class="thumb">
+              <span class="date">{{n.country}}  </span>
+              <img src="assets/images/hero_1.jpg" alt="Image" class="img-fluid">
+            </a>
+            <div class="post-meta text-center">
+              <a href="#">
+                <span class="icon-user"></span>
+                <span>{{n.date | date}}</span>
+              </a>
+              <a href="#">
+                <span class="icon-comment"></span>
+                <span>3 Comments</span>
+              </a>
+            </div>
+            <h3><a href="#">How Coronavirus Very Contigous</a></h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

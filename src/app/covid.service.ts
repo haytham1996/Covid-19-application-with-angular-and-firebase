@@ -104,4 +104,11 @@ export class CovidService {
 
   }
 
+  getAllDataForCountry(slug : String):Observable<any> {
+
+
+    return this.httpClient.get<any>(`${this.covidUrl}/total/dayone/country/${slug}`) ; 
+
+  }
+
 }

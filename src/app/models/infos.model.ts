@@ -6,6 +6,6 @@ NewRecovered: number
 TotalConfirmed: number 
 TotalDeaths: number 
 TotalRecovered: number 
-ActiveCases : number  
+  
 
 }

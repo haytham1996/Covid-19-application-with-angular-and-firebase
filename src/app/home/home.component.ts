@@ -140,10 +140,10 @@ export class HomeComponent implements OnInit {
   //  this.news = response.getAllNews ; 
     console.log(this.infos)
     this.date = this.infos.Date ; 
-    this.global.ActiveCases=  this.infos.Global.TotalConfirmed -  this.infos.Global.TotalRecovered +this.infos.Global.TotalDeaths ; 
+    this.activeCases=  this.infos.Global.TotalConfirmed -  this.infos.Global.TotalRecovered +this.infos.Global.TotalDeaths ; 
     this.recoveryRate = ((this.infos.Global.TotalRecovered / this.infos.Global.TotalConfirmed) * 100).toFixed(2) ; 
     this.mortalityRate= ((this.infos.Global.TotalDeaths / this.infos.Global.TotalConfirmed) * 100).toFixed(2) ;
-    this.pieChartData=[this.infos.Global.TotalDeaths , this.infos.Global.TotalRecovered , this.global.ActiveCases];
+    this.pieChartData=[this.infos.Global.TotalDeaths , this.infos.Global.TotalRecovered , this.activeCases];
     console.log(this.global)
    
 
@@ -196,7 +196,7 @@ export class HomeComponent implements OnInit {
 
      this.countriesData = this.infos.Countries ; 
 
-     console.log(this.countriesData)
+     console.log(this.countriesData)  
      
      
     
